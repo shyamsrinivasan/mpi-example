@@ -162,7 +162,7 @@ class MySlave(Slave):
         # elif task == Tasks.TASK2:
         #
         #     arg1, arg2 = data
-        print('  Slave %s rank %d executing %s with task_id %d' % (name, rank, y0_id, y_initial))
+        print('  Slave %s rank %d executing %s with task_id' % (name, rank, y0_id))
         #     ret = (True, arg1, 'something', 'else')
         #
         # elif task == Tasks.TASK3:
