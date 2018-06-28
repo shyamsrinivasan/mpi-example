@@ -129,7 +129,7 @@ class MySlave(Slave):
         # the data contains the task type
         # task, data = args
         # define explicit assimulo problem
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         rhs_fun = data['ode_fun']
         y_initial = data['y0']
         y0_id = data['y0_id']
@@ -185,13 +185,13 @@ if __name__ == "__main__":
     print('I am  %s rank %d (total %d)' % (name, rank, size))
 
     if rank == 0:  # Master
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         y0 = [np.array([1, .0001]), np.array([2, .0001]), np.array([3, .0001]), np.array([4, .0001]),
               np.array([5, .0001]), np.array([.0001, 1]), np.array([.0001, 2]), np.array([.0001, 3]),
               np.array([.0001, 4]), np.array([.0001, 5]), np.array([10, 1]), np.array([1, 10])]
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         app = MyApp(slaves=range(1, size))
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         app.run(tasks=y0)
         app.terminate_slaves()
 
