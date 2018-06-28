@@ -26,7 +26,7 @@ def py_rhs_fun(t, y, p):
 
 if __name__=='__main__':    
 	p = np.array([.5, .02, .4, .004])
-	ode_function = lambda t, x : rhs_fun(t, x, p)
+	ode_function = lambda t, x : py_rhs_fun(t, x, p)
 
 	# define explicit assimulo problem
 	prob = Explicit_Problem(ode_function, y0=np.array([10, .0001]))
