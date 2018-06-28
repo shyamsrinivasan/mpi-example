@@ -45,7 +45,7 @@ class MyApp(object):
         """
         # if task:
         # set ode rhs function
-        data = {'ode_fun': lambda t, x: py_rhs_fun(t, x, p), 'y0': task, 'y0_id': i}
+        data = {'ode_fun': py_rhs_fun, 'y0': task, 'y0_id': i, 'p': p}
         # else:
         #     data = {'ode_fun': None, 'y0': None}
         # if task is None:
@@ -130,10 +130,11 @@ class MySlave(Slave):
         # task, data = args
         # define explicit assimulo problem
         import pdb; pdb.set_trace()
-        ode_function = data['ode_fun']
+        rhs_fun = data['ode_fun']
         y_initial = data['y0']
         y0_id = data['y0_id']
-        prob = Explicit_Problem(ode_function, y0=y_initial)
+        p = data['p']
+        prob = Explicit_Problem(lambda t, x: rhs_fun(t, x, p), y0=y_initial)
 
         # create solver instance
         solver = CVode(prob)
