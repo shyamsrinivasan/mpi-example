@@ -102,7 +102,7 @@ class MyApp(object):
                 print('Master: slave finished its task returning: %s)' % str(y0_id))
 
             # sleep some time
-            time.sleep(0.3)
+            # time.sleep(0.3)
         # self.results.update({'time': all_tout, 'y': all_yout, 'y0_id': all_y0_id})
         return all_boolean, all_tout, all_yout, all_y0_id
 
@@ -173,7 +173,7 @@ class MySlave(Slave):
         #     ret = (True, arg1, 'something')
         # simulate system
         time_course, y_dynamic = solver.simulate(10, 200)
-        if time_course and y_dynamic:
+        if time_course.size and y_dynamic.size:
             done = True
 
         if done:
