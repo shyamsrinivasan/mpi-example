@@ -43,24 +43,9 @@ class MyApp(object):
         we create random tasks 1-3 and add it to the work queue
         Every task has specific arguments
         """
-        # if task:
-        # set ode rhs function
+        # set ode rhs function, initial condition and parameters
         data = {'ode_fun': py_rhs_fun, 'y0': task, 'y0_id': i, 'p': p}
-        # else:
-        #     data = {'ode_fun': None, 'y0': None}
-        # if task is None:
-        #     task = random.randint(1, 3)
-        #
-        # if task == 1:
-        #     args = i
-        #     data = (Tasks.TASK1, args)
-        # elif task == 2:
-        #     args = (i, i * 2)
-        #     data = (Tasks.TASK2, args)
-        # elif task == 3:
-        #     args = (i, 999, 'something')
-        #     data = (Tasks.TASK3, args)
-
+        # add data to work queue
         self.work_queue.add_work(data)
 
     def run(self, tasks=[]):
