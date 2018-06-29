@@ -91,7 +91,7 @@ class MyApp(object):
             # reclaim returned data from completed slaves
             #
             for slave_return_data in self.work_queue.get_completed_work():
-                import pdb; pdb.set_trace()
+                # import pdb; pdb.set_trace()
                 tout, yout, y0_id = slave_return_data
                 #
                 # each task type has its own return type
