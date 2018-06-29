@@ -31,6 +31,7 @@ class MyApp(object):
         self.master = Master(slaves)
         # WorkQueue is a convenient class that run slaves on a tasks queue
         self.work_queue = WorkQueue(self.master)
+        self.results = {}
 
     def terminate_slaves(self):
         """
@@ -65,6 +66,9 @@ class MyApp(object):
         #
         # Keeep starting slaves as long as there is work to do
         #
+        all_tout = []
+        all_yout = []
+        all_y0_id = []
         while not self.work_queue.done():
 
             #
@@ -78,6 +82,10 @@ class MyApp(object):
             for slave_return_data in self.work_queue.get_completed_work():
                 # import pdb; pdb.set_trace()
                 tout, yout, y0_id = slave_return_data
+                all_tout.append(tout)
+                all_yout.append(yout)
+                all_y0_id.append(y0_id)
+
                 #
                 # each task type has its own return type
                 #
@@ -93,6 +101,7 @@ class MyApp(object):
 
             # sleep some time
             time.sleep(0.3)
+        self.results.update({'time': all_tout, 'y': all_yout, 'y0_id': all_y0_id})
 
 
 class MySlave(Slave):
@@ -176,8 +185,8 @@ if __name__ == "__main__":
               np.array([.0001, 4]), np.array([.0001, 5]), np.array([10, 1]), np.array([1, 10])]
         # import pdb; pdb.set_trace()
         app = MyApp(slaves=range(1, size))
-        # import pdb; pdb.set_trace()
         app.run(tasks=y0)
+        # import pdb; pdb.set_trace()
         app.terminate_slaves()
 
     else:  # Any slave
