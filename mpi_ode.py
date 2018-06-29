@@ -66,6 +66,7 @@ class MyApp(object):
         #
         # Keeep starting slaves as long as there is work to do
         #
+        all_boolean = []
         all_tout = []
         all_yout = []
         all_y0_id = []
@@ -81,7 +82,8 @@ class MyApp(object):
             #
             for slave_return_data in self.work_queue.get_completed_work():
                 # import pdb; pdb.set_trace()
-                tout, yout, y0_id = slave_return_data
+                done, tout, yout, y0_id = slave_return_data
+                all_boolean.append(done)
                 all_tout.append(tout)
                 all_yout.append(yout)
                 all_y0_id.append(y0_id)
@@ -101,7 +103,8 @@ class MyApp(object):
 
             # sleep some time
             time.sleep(0.3)
-        self.results.update({'time': all_tout, 'y': all_yout, 'y0_id': all_y0_id})
+        # self.results.update({'time': all_tout, 'y': all_yout, 'y0_id': all_y0_id})
+        return all_boolean, all_tout, all_yout, all_y0_id
 
 
 class MySlave(Slave):
@@ -119,11 +122,14 @@ class MySlave(Slave):
         super(MySlave, self).__init__()
 
     def do_work(self, data):
+        """do work method overrides Slave.do_work() and defines work
+        to be done by every slave"""
+        # boolean variable set to determine whether work on slave was completed on not
+        done = False
 
         # the data contains the task type
         # task, data = args
         # define explicit assimulo problem
-        # import pdb; pdb.set_trace()
         rhs_fun = data['ode_fun']
         y_initial = data['y0']
         y0_id = data['y0_id']
@@ -166,9 +172,14 @@ class MySlave(Slave):
         #     name, rank, task, arg1, arg2, arg3))
         #     ret = (True, arg1, 'something')
         # simulate system
-        time_course, y_result = solver.simulate(10, 200)
+        time_course, y_dynamic = solver.simulate(10, 200)
+        if time_course and y_dynamic:
+            done = True
 
-        return time_course, y_result, y0_id
+        if done:
+            return done, time_course, y_dynamic, y0_id
+        else:
+            return done, [], [], y0_id
 
 
 if __name__ == "__main__":
@@ -185,7 +196,7 @@ if __name__ == "__main__":
               np.array([.0001, 4]), np.array([.0001, 5]), np.array([10, 1]), np.array([1, 10])]
         # import pdb; pdb.set_trace()
         app = MyApp(slaves=range(1, size))
-        app.run(tasks=y0)
+        all_boolean, all_tout, all_yout, all_y0_id = app.run(tasks=y0)
         import pdb; pdb.set_trace()
         app.terminate_slaves()
 
