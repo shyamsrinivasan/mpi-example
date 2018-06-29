@@ -82,7 +82,7 @@ class MyApp(object):
             #
             for slave_return_data in self.work_queue.get_completed_work():
                 done, tout, yout, y0_id = slave_return_data
-                import pdb; pdb.set_trace()
+                # import pdb; pdb.set_trace()
                 all_boolean.append(done)
                 all_tout.append(tout)
                 all_yout.append(yout)
