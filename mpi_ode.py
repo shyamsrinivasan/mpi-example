@@ -186,7 +186,7 @@ if __name__ == "__main__":
         # import pdb; pdb.set_trace()
         app = MyApp(slaves=range(1, size))
         app.run(tasks=y0)
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         app.terminate_slaves()
 
     else:  # Any slave
