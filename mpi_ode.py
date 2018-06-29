@@ -173,7 +173,7 @@ class MySlave(Slave):
         #     ret = (True, arg1, 'something')
         # simulate system
         time_course, y_dynamic = solver.simulate(10, 200)
-        if time_course.size and y_dynamic.size:
+        if len(time_course) and len(y_dynamic):
             done = True
 
         if done:
